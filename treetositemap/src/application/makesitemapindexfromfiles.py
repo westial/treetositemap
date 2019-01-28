@@ -37,7 +37,7 @@ class MakeSiteMapIndexFromFiles(object):
     ):
         print(
             "DEBUG: Indexing local directory {0} "
-            "looking for files under pattern as {1}"
+            "looking for items under pattern as {1}"
             "to create a sitemap for {2} domain destination.".format(
                 files_local_root_directory,
                 path_pattern,
@@ -54,9 +54,9 @@ class MakeSiteMapIndexFromFiles(object):
         if self.__sitemap_repository.is_empty():
             raise EmptyResult("SiteMap repository is empty")
 
-        print("DEBUG: All items indexed.")
+        print("DEBUG: All items indexed")
 
-        print("DEBUG: Writing sitemap resource files.")
+        print("DEBUG: Writing sitemap resource files")
 
         self.__write_sitemap_files(max_in_page, destination_path, domain)
 
@@ -89,7 +89,7 @@ class MakeSiteMapIndexFromFiles(object):
                         domain
                     )
                     url = XmlUrl(url_loc)
-                    print("DEBUG: Added file url as {0}.".format(url_loc))
+                    print("DEBUG: Added item url as {0}".format(url_loc))
                     self.__sitemap_repository.add_url(url)
 
     def __write_sitemap_files(self, max_in_page, local_destination_path, domain):
@@ -113,10 +113,10 @@ class MakeSiteMapIndexFromFiles(object):
                     self.__date_service.now_iso_format()
                 )
             )
-            print("DEBUG: File {0} written.".format(urlset_file_path))
+            print("DEBUG: File {0} written".format(urlset_file_path))
             urlset_counter += 1
 
-        print("DEBUG: Writing sitemap index file.")
+        print("DEBUG: Writing sitemap index file")
 
         self.__sitemap_writer.write_sitemapindex(
             join_paths(local_destination_path, "sitemap.xml"),
