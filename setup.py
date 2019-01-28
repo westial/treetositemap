@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='treetositemap',
-      version='0.1.0b2',
+      version='0.1.0b3',
       description='Command line tool that automates the creation of sitemap '
                   'resources and recursively indexes large amount of filtered '
                   'files and directories.',
