@@ -3,15 +3,15 @@
 from setuptools import setup, find_packages
 
 setup(name='treetositemap',
-      version='0.1.0b',
+      version='0.1.0b1',
       description='Command line tool that automates the creation of sitemap '
                   'resources and recursively indexes large amount of filtered '
                   'files and directories.',
       author='Jaume Mila',
       author_email='jaume@westial.com',
-      packages=find_packages(),
+      packages=["treetositemap"],
       entry_points={
-          "console_scripts": ['treetositemap = __main__:main']
+          "console_scripts": ['treetositemap = treetositemap.__main__:main']
       },
       tests_require=['behave']
 )
