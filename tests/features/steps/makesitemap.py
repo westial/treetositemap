@@ -2,8 +2,10 @@ import time
 
 from behave import *
 
+from tests.mock.fakeresultvalidator import FakeResultValidator
 from treetositemap.src.application.makesitemapindexfromfiles import MakeSiteMapIndexFromFiles
-from treetositemap.src.infrastructure.fakeresultvalidator import FakeResultValidator
+from treetositemap.src.infrastructure.contentregexresultvalidator import \
+    ContentRegexResultValidator
 from treetositemap.src.infrastructure.inmemorysitemaprepository import \
     InMemorySiteMapRepository
 from treetositemap.src.infrastructure.localfilefinder import LocalFileFinder
@@ -26,7 +28,7 @@ def step_impl(context):
     context.sitemap_file_service = LocalFileFinder()
 
 
-@step("A result validator")
+@step("A fake result validator")
 def step_impl(context):
     context.validator = FakeResultValidator()
 
@@ -119,3 +121,9 @@ def check_node_name(context, xml_tag: ET.Element, expected_name):
 @given('A date service with forced date as "([^\"]+)"')
 def step_impl(context, forced):
     context.date_service = MockDateService(forced)
+
+
+@given(
+    'A content regex result validator with pattern expression as "([^\"]+)"')
+def step_impl(context, pattern_expression):
+    context.validator = ContentRegexResultValidator(pattern_expression)

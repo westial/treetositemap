@@ -16,7 +16,7 @@ class MakeSiteMapIndexFromFiles(object):
             date_service: DateService,
             sitemap_repository: SiteMapRepository,
             sitemap_file_service: FileFinder,
-            book_validator: ResultValidator,
+            content_validator: ResultValidator,
             sitemap_writer: SiteMapWriter,
             sitemaps_folder_name
     ):
@@ -25,7 +25,7 @@ class MakeSiteMapIndexFromFiles(object):
         self.__sitemaps_folder_name = sitemaps_folder_name
         self.__sitemap_repository = sitemap_repository
         self.__sitemap_file_service = sitemap_file_service
-        self.__book_validator = book_validator
+        self.__content_validator = content_validator
 
     def invoke(
             self,
@@ -80,19 +80,20 @@ class MakeSiteMapIndexFromFiles(object):
             True
         )
         for found_path in file_paths:
-            with open(found_path, 'rb') as found_file:
-                content = found_file.read()
-                if self.__book_validator.is_valid(content):
-                    url_loc = replace_root_directory_path(
-                        files_local_root_directory,
-                        found_path,
-                        domain
-                    )
-                    url = XmlUrl(url_loc)
-                    print("DEBUG: Added item url as {0}".format(url_loc))
-                    self.__sitemap_repository.add_url(url)
+            if self.__content_validator \
+                    and not self.__content_validator.is_valid(found_path):
+                continue
+            url_loc = replace_root_directory_path(
+                files_local_root_directory,
+                found_path,
+                domain
+            )
+            url = XmlUrl(url_loc)
+            print("DEBUG: Added item url as {0}".format(url_loc))
+            self.__sitemap_repository.add_url(url)
 
-    def __write_sitemap_files(self, max_in_page, local_destination_path, domain):
+    def __write_sitemap_files(self, max_in_page, local_destination_path,
+                              domain):
         urlsets = self.__sitemap_repository.get_urlsets(max_in_page)
         urlset_counter = 0
 

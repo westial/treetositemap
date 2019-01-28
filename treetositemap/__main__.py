@@ -4,7 +4,7 @@ import argparse
 
 from .src.application.makesitemapindexfromfiles import MakeSiteMapIndexFromFiles
 from .src.infrastructure.basicdateservice import BasicDateService
-from .src.infrastructure.fakeresultvalidator import FakeResultValidator
+from .src.infrastructure.contentregexresultvalidator import ContentRegexResultValidator
 from .src.infrastructure.inmemorysitemaprepository import \
     InMemorySiteMapRepository
 from .src.infrastructure.localfilefinder import LocalFileFinder
@@ -46,6 +46,14 @@ def parse_args():
         required=True
     )
     parser.add_argument(
+        "-P",
+        "--validpattern",
+        help='Pattern to check the indexing files content, if the content '
+             'does not match the pattern, the file is not indexed. '
+             'For example: '
+             '(?s)\\A(?!.*?(?<!\\w)(I do not want this file)(?!\\w)).*'
+    )
+    parser.add_argument(
         "-d",
         "--domain",
         help="Destination domain with path that you want the search engines "
@@ -66,7 +74,12 @@ def main():
 
     sitemap_repository = InMemorySiteMapRepository()
     sitemap_file_service = LocalFileFinder()
-    validator = FakeResultValidator()
+
+    if args.validpattern:
+        validator = ContentRegexResultValidator(args.validpattern)
+    else:
+        validator = None
+
     date_service = BasicDateService()
     sitemap_writer = XmlSiteMapWriter(
         args.xmlns,

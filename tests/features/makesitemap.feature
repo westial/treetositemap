@@ -3,7 +3,7 @@ Feature: Tests for making the gutenberg sitemaps use case
   Scenario: Properly make the index and sitemaps
     Given A sitemap repository
     And A file finder service
-    And A result validator
+    And A content regex result validator with pattern expression as "(?s)\A(?!.*?(?<!\w)(I do not want this file)(?!\w)).*"
     And A date service with forced date as "2019-01-25T08:06:35Z"
     And A sitemap file writer configured with attributes xmlns as "http://www.sitemaps.org/schemas/sitemap/0.9" and xmlns:mobile as "http://www.google.com/schemas/sitemap-mobile/1.0"
     And A making sitemap index from files use case with url sets folder name as "sitemaps"
