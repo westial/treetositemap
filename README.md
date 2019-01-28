@@ -36,6 +36,12 @@ Definitively install
 `python setup.py install`
 
 
+## TODO ##
+
+Result validation. Before index an item, it could be checked in ResultValidator
+class. Actually there is a hook in the use case.
+
+
 ## Versioning ##
 
 We use [SemVer](http://semver.org/) for versioning.
