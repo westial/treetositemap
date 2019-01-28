@@ -9,7 +9,7 @@ setup(name='treetositemap',
                   'files and directories.',
       author='Jaume Mila',
       author_email='jaume@westial.com',
-      packages=["treetositemap"],
+      packages=["treetositemap", "treetositemap.src"],
       entry_points={
           "console_scripts": ['treetositemap = treetositemap.__main__:main']
       },
